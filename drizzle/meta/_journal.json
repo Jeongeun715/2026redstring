@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1792718701818,
+      "tag": "0000_abandoned_swordsman",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1792744902010,
+      "tag": "0001_faulty_pretty_boy",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1792749188090,
+      "tag": "0002_condemned_susan_delgado",
+      "breakpoints": true
+    }
+  ]
+}

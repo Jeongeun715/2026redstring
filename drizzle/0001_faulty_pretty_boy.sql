@@ -1,0 +1,1 @@
+ALTER TABLE `guestbook` ADD `ornament` text DEFAULT 'star' NOT NULL;

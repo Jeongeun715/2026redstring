@@ -1,0 +1,5 @@
+# 선택 기능입니다. 미설정 시 app/data/site.ts의 수동 셋리스트를 표시합니다.
+# node scripts/spotify-connect.mjs 로 로컬에서 인증하면 .dev.vars에 저장됩니다.
+SPOTIFY_CLIENT_ID=""
+SPOTIFY_PLAYLIST_ID=""
+SPOTIFY_REFRESH_TOKEN=""
