@@ -4,16 +4,62 @@
 
 Node.js 22.13 이상이 필요합니다. 기존 비공개 Sites 주소와 이 소스는 별개이며, 이 소스를 수정해도 기존 주소에 자동 반영되지 않습니다.
 
+## 모바일 간격·장식·OFF STAGE 수정
+
+이번 변경 파일은 아래 네 개입니다. 기존 Git 연결 프로젝트의 `app` 폴더에 같은 경로로 덮어쓰세요. 본인 PC에서 설치한 패키지 설정과 연결값은 이 변경에 포함되지 않습니다.
+
+- `app/globals.css`
+- `app/mobile-layout.css`
+- `app/components/string-wall.tsx`
+- `app/components/band-notes.tsx`
+
+PC의 448px 폭과 흰 여백은 유지합니다. 360px 이상에서는 한 실의 장식을 4열, 360px 미만에서는 3열로 배치합니다. 화면이 아닌 실제 사이트 컨테이너 폭을 기준으로 전환합니다. 한 실은 최대 12개이며 좌우 이동·등록 모션·삭제는 그대로 작동합니다.
+
+보내준 간격 시안을 기준으로 셋리스트 끝 여백을 70px로, 기대평 버튼 위 간격을 48px로 조절했습니다(작은 화면에서는 36px). 새로고침 버튼은 설명 오른쪽에 배치합니다. 별·하트·음표·피크는 고리와 얇은 외곽선이 있는 새로운 SVG로 통일했습니다.
+
+OFF STAGE는 ON STAGE와 같은 대제목 스타일로 가운데 정렬합니다. 설명은 ‘우당탕탕 직장인 초보밴드 일기’이며, 썸네일은 `oAJFir5Wt3k` 영상의 공식 유튜브 이미지 주소를 사용합니다. 클릭 주소는 기존 `https://www.youtube.com/@redstring_band`입니다. 유튜브 이미지가 차단되거나 불러오기에 실패하면 로고를 대신 보여주고 채널 링크는 유지합니다.
+
+적용 후 개발 서버를 다시 실행해 확인하거나, 아래 명령으로 GitHub와 연결된 Vercel에 반영하세요.
+
+```bash
+git add app/globals.css app/mobile-layout.css app/components/string-wall.tsx app/components/band-notes.tsx
+git commit -m "모바일 간격과 OFF STAGE 디자인 수정"
+git push origin main
+```
+
+검증: 브라우저에서 320·360·390·448px 컨테이너의 열/행 수, 실 전체 폭, 버튼 간격과 제목 가운데 정렬을 확인했습니다. 컴포넌트 테스트에서 등록·드래그·타이머·미리듣기 전환·설명·기존 채널 링크·이미지 실패 시 로고 처리를 확인했습니다. 빌드와 자동 테스트 22개를 통과했습니다. 검증 환경에서는 유튜브 이미지 서버 접근이 제한돼 실제 썸네일 표시는 확인하지 못했습니다.
+
+## Supabase 연결 오류 진단
+
+`check_sql_and_key`가 계속될 때는 이번 파일 중 `app/api/health/route.ts`만 기존 프로젝트의 같은 위치에 덮어써도 됩니다. 본인 PC에서 추가한 패키지와 환경변수는 유지하세요. 이 경로는 조회만 수행하며 데이터를 쓰지 않습니다.
+
+실패 응답에는 `diagnostic_version: 2`, 실패 위치 `failed_at`, 분류 `reason`, HTTP 상태 `upstream_status`, 허용된 오류 코드 `error_code`가 추가됩니다. 실제 프로젝트 URL·키·Supabase 응답 원문·저장된 데이터는 반환하지 않습니다. 정상 응답은 기존과 같습니다.
+
+- `missing_environment_variables`: 환경변수 누락 또는 예시 값
+- `invalid_project_url`: URL 해석/프로토콜 실패
+- `authentication_failed`: 서버 요청 인증 실패. 같은 프로젝트의 URL과 Secret key 확인
+- `table_missing`: 조회 대상 테이블 누락 또는 API 스키마 캐시에서 찾지 못함
+- `permission_denied`: DB 역할의 테이블 접근 권한 부족
+- `schema_not_exposed`: API에 해당 스키마가 노출되지 않음
+- `table_or_api_missing`: API 주소/테이블 경로에서 404 응답
+- `access_denied`: 403 응답. API 설정과 권한 확인
+- `supabase_unavailable`: Supabase 5xx 응답
+- `request_timeout` / `request_failed`: 서버 통신 지연 또는 요청 실패
+
+교체 후 `git add app/api/health/route.ts`, `git commit -m "Supabase 연결 오류 진단 추가"`, `git push origin main`을 실행합니다. 새 배포가 Ready가 되면 운영 주소의 `/api/health`를 열어 전체 JSON 응답을 확인하세요. 여전히 진단 필드가 없으면 이전 배포 또는 다른 프로젝트의 주소를 보고 있는지 확인합니다.
+
+연결 진단 4개를 포함한 자동 테스트 22개와 Next.js 빌드로 검증했습니다. 실제 사용자의 Supabase 키/프로젝트에는 접속하지 않았습니다.
+
 ## 이번 수정 적용하기
 
 개발 서버를 **Ctrl+C**로 끄고, ZIP 안 `RedString-Vercel-Supabase` 폴더의 **내용**을 기존 프로젝트 폴더에 덮어쓴 뒤 `npm run dev`를 실행하세요. 기존 `.env.local`과 `.git`은 유지합니다. 이번 수정에는 추가 SQL·환경변수·패키지 설치가 필요하지 않습니다.
 
 - 기대평 등록 직후 기존 장식을 유지합니다. 기존 장식이 잠시 뒤로 물러나고 새 장식이 떨어져 실에 걸린 뒤 흔들리는 모션을 적용했습니다. 동작 줄이기 설정에서는 애니메이션을 생략합니다.
 - ‘기대평 남기기’ 버튼을 실 아래로 옮겼고, 작성 창의 ‘기대 한줄’ 제목을 제거했습니다. 장식 선택에는 큰 아이콘만 보이고 접근성 이름은 유지합니다.
-- 별·하트와 어울리도록 음표·피크도 단순한 면과 작은 반짝임으로 정리했습니다.
+- 별·하트·음표·피크를 고리와 외곽선이 있는 오너먼트 세트로 정리했습니다.
 - Spotify 플레이어가 선택한 곡 아래에 펼쳐집니다. 한 번에 하나만 열리고, 같은 버튼을 누르거나 곡을 바꾸면 이전 플레이어를 멈추고 정리합니다.
 - 멤버 이름표는 어두운 바탕·밝은 20px 이름·왼쪽 붉은 선으로 정리했습니다. 작은 화면에서는 18px을 사용하며, 버튼을 가리키거나 누를 때 붉은 테두리와 바탕이 반응합니다. 팝업 버튼 문구는 ‘한 번 더 응원하기’이며, 입장 안내는 ‘입장 오후 5시 30분’입니다.
-- 실 이어주기 다음에 ‘OFF STAGE / 밴드 노트’를 추가했습니다. 제공된 유튜브 채널로 연결하며, 실제 영상 썸네일이나 제목을 임의로 넣지 않았습니다.
+- 실 이어주기 다음의 ‘OFF STAGE’를 가운데 정렬했습니다. 제공된 영상의 썸네일을 쓰고 밴드 유튜브 채널로 연결합니다.
 - 푸터 로고 아래 유튜브·인스타그램 아이콘이 각각 밴드 채널로 연결됩니다.
 
 수정 위치: 기대평 흐름 `app/components/string-gallery.tsx`, 실·장식 `app/components/string-wall.tsx`, 입력 폼 `app/components/guestbook.tsx`, 인라인 플레이어 `app/components/setlist.tsx`, 밴드 노트 `app/components/band-notes.tsx`, 소셜 주소 `app/data/site.ts`, 이름 버튼과 모션 `app/globals.css`.

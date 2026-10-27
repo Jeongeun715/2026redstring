@@ -8,22 +8,25 @@ export const ornaments: { id: OrnamentKind; label: string }[] = [{ id: "star", l
 const ornamentColors: Record<OrnamentKind, string> = { star: "#F5C857", heart: "#D62839", note: "#176B4A", pick: "#D62839" };
 export function Ornament({ kind }: { kind: OrnamentKind }) {
   return <svg viewBox="0 0 80 88" fill="none" aria-hidden="true" className={`ornament-art ornament-${kind}`} style={{ color: ornamentColors[kind] }} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M36 11V7a4 4 0 0 1 8 0v4" stroke="currentColor" strokeWidth="2.2" />
+    <path d="M36 11V7a4 4 0 0 1 8 0v4" stroke="#F7F1DF" strokeOpacity=".8" strokeWidth="1.8" />
+    <rect x="34" y="11" width="12" height="6" rx="2" fill="currentColor" stroke="#F7F1DF" strokeOpacity=".55" strokeWidth="1.2" />
     {kind === "star" ? <>
-      <path d="m40 13 8 24 23 10-23 10-8 24-8-24L9 47l23-10Z" fill="currentColor" stroke="#A87E22" strokeWidth="1.1" />
-      <path d="m40 25 4 17 16 5-16 5-4 17-4-17-16-5 16-5Z" stroke="#B7871F" strokeWidth="1.2" />
-      <path d="m57 21 2 5 5 2-5 2-2 5-2-5-5-2 5-2ZM20 64l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5Z" fill="currentColor" />
+      <path d="m40 17 8 20 22 1-17 14 5 22-18-12-18 12 5-22-17-14 22-1Z" fill="currentColor" stroke="#FFE39A" strokeWidth="1.6" />
+      <path d="m40 28-5 14-13 1" stroke="#FFF5CF" strokeWidth="2.4" />
     </> : kind === "heart" ? <>
-      <path d="M35 12h10v8H35Z" fill="currentColor" />
-      <path d="M40 79C32 72 8 55 8 37c0-19 23-24 32-8 9-16 32-11 32 8 0 18-24 35-32 42Z" fill="currentColor" />
-      <path d="M40 68C29 59 18 47 18 38c0-9 11-13 17-4" stroke="#F7F1DF" strokeWidth="2" />
-      <path d="m52 35 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="#F7F1DF" />
+      <path d="M40 17v13" stroke="currentColor" strokeWidth="3" />
+      <path d="M40 78C29 70 10 55 10 38c0-16 20-23 30-8 10-15 30-8 30 8 0 17-19 32-30 40Z" fill="currentColor" stroke="#F47B88" strokeWidth="1.6" />
+      <path d="M21 43c-3-10 2-15 8-14" stroke="#FFD4D9" strokeWidth="2.4" />
+      <circle cx="57" cy="42" r="2.3" fill="#FFD4D9" />
     </> : kind === "note" ? <>
-      <path d="M40 11v11" stroke="currentColor" strokeWidth="2.2" />
-      <path d="m30 24 38-10v47c0 11-15 17-23 10-7-6-2-16 12-16V34l-16 4v32c0 11-15 17-23 10-8-7-2-19 12-17Z" fill="currentColor" /><path d="M34 29v24m-12 19c2-3 6-4 9-3" stroke="#F7F1DF" strokeWidth="2" strokeOpacity=".8" />
+      <path d="m40 17 5 6" stroke="currentColor" strokeWidth="3" />
+      <path d="M44 21h7c0 10 17 12 17 24 0 7-4 13-10 16 4-6 5-11 2-15-2-3-5-5-9-7v29c0 10-14 17-24 13-9-3-11-12-3-18 5-4 12-5 20-5Z" fill="currentColor" stroke="#78BA9E" strokeWidth="1.6" />
+      <path d="M47 31v23m-22 18c2-3 6-4 9-4" stroke="#C6E8D7" strokeWidth="2.4" />
     </> : <>
-      <path d="M35 12h10v6H35Z" fill="currentColor" />
-      <path d="M40 17c15 0 29 3 29 15 0 17-16 41-29 49-13-8-29-32-29-49 0-12 14-15 29-15Z" fill="currentColor" /><path d="M23 36c0-7 8-11 15-10" stroke="#F7F1DF" strokeWidth="2" /><path d="m51 40 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="#F7F1DF" />
+      <path d="M40 17v6" stroke="currentColor" strokeWidth="3" />
+      <path d="M40 22c16 0 29 2 29 15 0 15-16 37-25 43a7 7 0 0 1-8 0C27 74 11 52 11 37c0-13 13-15 29-15Z" fill="currentColor" stroke="#F47B88" strokeWidth="1.6" />
+      <path d="M22 38c0-6 6-7 13-7" stroke="#FFD4D9" strokeWidth="2.4" />
+      <circle cx="40" cy="44" r="3" fill="#FFD4D9" /><circle cx="35" cy="53" r="2" fill="#FFD4D9" /><circle cx="45" cy="53" r="2" fill="#FFD4D9" />
     </>}
   </svg>;
 }

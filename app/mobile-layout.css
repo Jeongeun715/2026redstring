@@ -1,9 +1,44 @@
-/* PC에서도 모바일과 같은 448px 폭을 유지합니다. */
-.site-shell{position:relative;width:100%;max-width:448px;min-height:100dvh;margin:0 auto;background:var(--paper);box-shadow:0 0 0 1px #E4E3DE}
+/* PC에서는 모바일 폭, 휴대폰에서는 화면 폭에 맞춥니다. */
+.site-shell{container-type:inline-size;position:relative;width:100%;max-width:448px;min-height:100dvh;margin:0 auto;background:var(--paper);box-shadow:0 0 0 1px #E4E3DE}
 @media(min-width:600px){.site-shell{margin:24px auto;box-shadow:0 0 0 1px #E4E3DE,0 16px 64px #0B0B0D0A}}
-@media(max-width:399px){.string-canvas{height:var(--narrow-height)}.wire-4{display:none}.wire-3{display:block}.wall-node{left:var(--nx);top:var(--ny);width:calc(100% / 3)}.members-section{padding-left:18px;padding-right:18px}.band-card{padding-left:0;padding-right:0}.member-name-list{gap:7px}.member-name-badge{font-size:18px}.setlist-section{padding-left:21px;padding-right:21px}.song-main{gap:9px}.track-number{width:26px}.track-name h3{font-size:18px}.event-date p{font-size:21px}.section-heading h2{font-size:36px}}
-@media(max-width:340px){.concert-ticket{padding-left:20px;padding-right:20px}.concert-ticket h1{font-size:18px}.main-visual-slot{height:340px}.event-date p{font-size:19px;letter-spacing:-1px}.member-name-badge{font-size:18px}.band-card-top h3{font-size:20px}.band-card-top>span{font-size:17px}.band-card{padding-left:0;padding-right:0}.guestbook-section{--guestbook-inset:14px}.rs-dialog{padding-left:20px;padding-right:20px}.ornament-picker>div{gap:5px}}
 
-@media(max-width:340px){.setlist-section{padding-left:18px;padding-right:18px}.song-main{gap:8px}.track-name h3,.track-number{font-size:17px}.track-number{width:24px}}
-
-@media(max-width:340px){.band-notes{padding-left:20px;padding-right:20px}.notes-cover-top{left:34px;font-size:9px}.notes-cover-bottom{left:34px;font-size:10px}}
+@media(max-width:399px){
+  .members-section{padding-left:18px;padding-right:18px}
+  .band-card{padding-left:0;padding-right:0}
+  .member-name-list{gap:7px}
+  .member-name-badge{font-size:18px}
+  .setlist-section{padding-left:21px;padding-right:21px}
+  .song-main{gap:9px}
+  .track-number{width:26px}
+  .track-name h3{font-size:18px}
+  .event-date p{font-size:21px}
+  .section-heading h2{font-size:36px}
+}
+@container(max-width:399px){.ornament-name{font-size:13px;padding-inline:4px}}
+/* 360px 미만은 세 칸으로 전환해 장식과 닉네임의 터치 공간을 확보합니다. */
+@container(max-width:359px){
+  .string-canvas{height:var(--narrow-height)}
+  .wire-4{display:none}
+  .wire-3{display:block}
+  .wall-node{left:var(--nx);top:var(--ny);width:calc(100% / 3)}
+  .ornament-name{font-size:14px}
+  .guestbook-section{padding-top:42px;padding-bottom:36px}
+  .guestbook-section .section-heading h2{font-size:32px}
+  .compose-button{margin-top:36px}
+  .band-notes{padding-left:20px;padding-right:20px}
+  .notes-heading p{font-size:15px}
+}
+@media(max-width:340px){
+  .concert-ticket{padding-left:20px;padding-right:20px}
+  .concert-ticket h1{font-size:18px}
+  .main-visual-slot{height:340px}
+  .event-date p{font-size:19px;letter-spacing:-1px}
+  .band-card-top h3{font-size:20px}
+  .band-card-top>span{font-size:17px}
+  .rs-dialog{padding-left:20px;padding-right:20px}
+  .ornament-picker>div{gap:5px}
+  .setlist-section{padding-left:18px;padding-right:18px}
+  .song-main{gap:8px}
+  .track-name h3,.track-number{font-size:17px}
+  .track-number{width:24px}
+}
