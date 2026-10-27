@@ -16,7 +16,7 @@ const challenge = createHash('sha256').update(verifier).digest('base64url');
 const state = randomBytes(24).toString('hex');
 const authorize = new URL('https://accounts.spotify.com/authorize');
 authorize.search = new URLSearchParams({ client_id: clientId, response_type: 'code', redirect_uri: redirect, scope: 'playlist-read-private playlist-read-collaborative', code_challenge_method: 'S256', code_challenge: challenge, state }).toString();
-const path = fileURLToPath(new URL('../.dev.vars', import.meta.url));
+const path = fileURLToPath(new URL('../.env.local', import.meta.url));
 let handled = false;
 const server = createServer(async (req, res) => {
   const url = new URL(req.url || '/', redirect);
@@ -33,7 +33,7 @@ const server = createServer(async (req, res) => {
     const rest = previous.split('\n').filter(line => !/^SPOTIFY_(CLIENT_ID|REFRESH_TOKEN|PLAYLIST_ID)=/.test(line)).join('\n').trimEnd();
     await writeFile(path, `${rest}${rest ? '\n' : ''}SPOTIFY_CLIENT_ID=${JSON.stringify(clientId)}\nSPOTIFY_REFRESH_TOKEN=${JSON.stringify(token.refresh_token)}\nSPOTIFY_PLAYLIST_ID=${JSON.stringify(playlistId)}\n`, { mode: 0o600 });
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' }).end('<h1>Spotify 연결 완료</h1><p>이 창을 닫고 개발 서버를 다시 실행하세요.</p>');
-    console.log('연결 정보를 .dev.vars에 저장했습니다. 개발 서버를 다시 실행하세요. 이 파일은 공유하지 마세요.');
+    console.log('연결 정보를 .env.local에 저장했습니다. 개발 서버를 다시 실행하세요. 이 파일은 공유하지 마세요.');
   } catch (error) { res.writeHead(502).end('Could not connect. Try again.'); console.error(error.message); process.exitCode = 1; }
   finally { clearTimeout(timeout); server.close(); }
 });

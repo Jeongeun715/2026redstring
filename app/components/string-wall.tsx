@@ -1,28 +1,78 @@
 "use client";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { ArrowLeft, ArrowRight, ArrowUpRight, Plus, Trash2, X } from "lucide-react";
+import { Plus, Trash2, X } from "lucide-react";
 
 export type OrnamentKind = "star" | "heart" | "pick" | "note";
-export type StringEntry = { id: number; nickname: string; message: string; createdAt: number; ornament?: OrnamentKind; };
-export const ornaments: { id: OrnamentKind; label: string; }[] = [{ id: "star", label: "별" }, { id: "heart", label: "하트" }, { id: "pick", label: "기타 피크" }, { id: "note", label: "음표" }];
-export function Ornament({ kind }: { kind: OrnamentKind; }) {
-  return <svg viewBox="0 0 80 88" fill="none" aria-hidden="true" className={`ornament-art ornament-${kind}`}><circle cx="40" cy="7" r="4" stroke="currentColor" strokeWidth="1.5" />{kind === "star" ? <><path d="m40 14 9.3 22.7 24.5 2-18.6 16 5.7 24L40 66.1 19.1 78.7l5.7-24L6.2 38.7l24.5-2L40 14Z" fill="currentColor" /><path d="m40 26 5.4 18.3 18.5-1.5-16 11.3 7.5 16.7L40 59.5 24.6 70.8l7.5-16.7-16-11.3 18.5 1.5L40 26Z" stroke="#141414" strokeOpacity=".28" strokeWidth="1" /></> : kind === "heart" ? <><path d="M40 80S7 59 7 36a18 18 0 0 1 33-10 18 18 0 0 1 33 10c0 23-33 44-33 44Z" fill="currentColor" /><path d="M19 35c0-8 7-13 13-9" stroke="#fff" strokeOpacity=".4" strokeWidth="2" strokeLinecap="round" /></> : kind === "pick" ? <><path d="M40 14c12 0 29 1 31 13 3 17-19 51-31 56C28 78 6 44 9 27c2-12 19-13 31-13Z" fill="currentColor" /><path d="M18 29c7-8 36-8 44 0" stroke="#141414" strokeOpacity=".25" strokeWidth="1.5" /><text x="40" y="53" textAnchor="middle" fill="#141414" fontFamily="Arial" fontSize="18" fontWeight="900" fontStyle="italic">RS</text></> : <><path d="M30 58V24l38-9v40" stroke="currentColor" strokeWidth="7" strokeLinejoin="round" /><path d="m30 37 38-9" stroke="currentColor" strokeWidth="6" /><ellipse cx="21" cy="65" rx="14" ry="10" transform="rotate(-20 21 65)" fill="currentColor" /><ellipse cx="59" cy="62" rx="14" ry="10" transform="rotate(-20 59 62)" fill="currentColor" /></>}</svg>;
+export type StringEntry = { id: number; nickname: string; message: string; createdAt: number; ornament?: OrnamentKind };
+export const ornaments: { id: OrnamentKind; label: string }[] = [{ id: "star", label: "별" }, { id: "heart", label: "하트" }, { id: "note", label: "음표" }, { id: "pick", label: "기타 피크" }];
+const ornamentColors: Record<OrnamentKind, string> = { star: "#F5C857", heart: "#D62839", note: "#176B4A", pick: "#D62839" };
+export function Ornament({ kind }: { kind: OrnamentKind }) {
+  return <svg viewBox="0 0 80 88" fill="none" aria-hidden="true" className={`ornament-art ornament-${kind}`} style={{ color: ornamentColors[kind] }} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M36 11V7a4 4 0 0 1 8 0v4" stroke="currentColor" strokeWidth="2.2" />
+    {kind === "star" ? <>
+      <path d="m40 13 8 24 23 10-23 10-8 24-8-24L9 47l23-10Z" fill="currentColor" stroke="#A87E22" strokeWidth="1.1" />
+      <path d="m40 25 4 17 16 5-16 5-4 17-4-17-16-5 16-5Z" stroke="#B7871F" strokeWidth="1.2" />
+      <path d="m57 21 2 5 5 2-5 2-2 5-2-5-5-2 5-2ZM20 64l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5Z" fill="currentColor" />
+    </> : kind === "heart" ? <>
+      <path d="M35 12h10v8H35Z" fill="currentColor" />
+      <path d="M40 79C32 72 8 55 8 37c0-19 23-24 32-8 9-16 32-11 32 8 0 18-24 35-32 42Z" fill="currentColor" />
+      <path d="M40 68C29 59 18 47 18 38c0-9 11-13 17-4" stroke="#F7F1DF" strokeWidth="2" />
+      <path d="m52 35 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="#F7F1DF" />
+    </> : kind === "note" ? <>
+      <path d="M40 11v11" stroke="currentColor" strokeWidth="2.2" />
+      <path d="m30 24 38-10v47c0 11-15 17-23 10-7-6-2-16 12-16V34l-16 4v32c0 11-15 17-23 10-8-7-2-19 12-17Z" fill="currentColor" /><path d="M34 29v24m-12 19c2-3 6-4 9-3" stroke="#F7F1DF" strokeWidth="2" strokeOpacity=".8" />
+    </> : <>
+      <path d="M35 12h10v6H35Z" fill="currentColor" />
+      <path d="M40 17c15 0 29 3 29 15 0 17-16 41-29 49-13-8-29-32-29-49 0-12 14-15 29-15Z" fill="currentColor" /><path d="M23 36c0-7 8-11 15-10" stroke="#F7F1DF" strokeWidth="2" /><path d="m51 40 2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="#F7F1DF" />
+    </>}
+  </svg>;
 }
-function point(index: number, cols: number) { const row = Math.floor(index / cols), col = row % 2 ? cols - 1 - index % cols : index % cols; return { x: (col + .5) * 1000 / cols, y: 70 + row * 220, col: col + 1, row: row + 1 }; }
-function wire(count: number, cols: number) { const points = Array.from({ length: count }, (_, i) => point(i, cols)); let d = `M -20 45 Q 25 70 ${points[0].x} 70`; for (let i = 1; i < points.length; i++) { const a = points[i - 1], b = points[i]; if (a.row === b.row) d += ` Q ${(a.x + b.x) / 2} ${a.y + 42} ${b.x} ${b.y}`; else { const edge = a.x > 500 ? 995 : 5; d += ` C ${edge} ${a.y + 25} ${edge} ${b.y - 25} ${b.x} ${b.y}`; } } const last = points[points.length - 1]; return d + ` Q ${last.x + 35} ${last.y + 10} ${last.x + 50} ${last.y - 10}`; }
-export default function StringWall({ entries, own, busy, loading, error, freshId, onCompose, onDelete }: { entries: StringEntry[]; own: Record<string, string>; busy: boolean; loading: boolean; error: string; freshId: number | null; onCompose: () => void; onDelete: (id: number) => Promise<boolean>; }) {
-  const [page, setPage] = useState(0), [activeId, setActiveId] = useState<number | null>(null), [confirm, setConfirm] = useState(false), [deleteError, setDeleteError] = useState("");
-  const detail = useRef<HTMLDialogElement>(null), wall = useRef<HTMLDivElement>(null); const pageCount = Math.max(1, Math.ceil(entries.length / 8)); const safePage = Math.min(page, pageCount - 1);
-  const showing = entries.slice(safePage * 8, safePage * 8 + 8).reverse(); const count = Math.max(4, showing.length + 1); const active = entries.find(e => e.id === activeId);
-  useEffect(() => { if (freshId) setPage(0); }, [freshId]);
-  useEffect(() => { if (active) { setConfirm(false); setDeleteError(""); if (!detail.current?.open) detail.current?.showModal(); } else detail.current?.close(); }, [activeId, !!active]);
-  useEffect(() => { if (!active) return; const previous = document.body.style.overflow; document.body.style.overflow = "hidden"; return () => { document.body.style.overflow = previous; }; }, [!!active]);
-  function changePage(next: number) { setPage(next); requestAnimationFrame(() => wall.current?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" })); }
-  return <><div ref={wall} className="string-wall"><div className="wall-top"><span><i />OUR RED STRING</span><span>{entries.length ? `${showing.length}개의 마음을 펼쳐보는 중` : "THE FIRST STRING IS YOURS"}</span></div><div className="string-canvas" style={{ "--desktop-height": `${Math.ceil(count / 4) * 220 + 80}px`, "--mobile-height": `${Math.ceil(count / 2) * 220 + 80}px` } as CSSProperties}>
-    <svg className="wall-wire desktop-wire" viewBox={`0 0 1000 ${Math.ceil(count / 4) * 220 + 80}`} preserveAspectRatio="none" fill="none" aria-hidden="true"><path d={wire(count, 4)} className="wire-halo" /><path d={wire(count, 4)} className="wire-core" /><path d={wire(count, 4)} className="wire-highlight" /></svg>
-    <svg className="wall-wire mobile-wire" viewBox={`0 0 1000 ${Math.ceil(count / 2) * 220 + 80}`} preserveAspectRatio="none" fill="none" aria-hidden="true"><path d={wire(count, 2)} className="wire-halo" /><path d={wire(count, 2)} className="wire-core" /><path d={wire(count, 2)} className="wire-highlight" /></svg>
-    {Array.from({ length: count }, (_, index) => { const entry = showing[index], d = point(index, 4), m = point(index, 2); return <div key={entry?.id ?? `empty-${index}`} className={`wall-node ${entry ? `filled ${entry.id === freshId ? "fresh" : ""}` : "unfilled"}`} style={{ "--dx": `${d.x / 10}%`, "--dy": `${d.y}px`, "--mx": `${m.x / 10}%`, "--my": `${m.y}px`, "--tilt": `${[5, -7, 3, -4][index % 4]}deg`, "--delay": `${index * .12}s` } as CSSProperties}><span className="thread-knot" /><span className="hanging-thread" />{entry ? <button className="ornament-button" onClick={() => setActiveId(entry.id)} aria-label={`${entry.nickname}님의 기대평 보기`}><Ornament kind={entry.ornament || "star"} /><span className="ornament-name">{entry.nickname}</span><span className="ornament-teaser">{entry.message}</span><span className="ornament-open">한줄 읽기 ↗</span></button> : <button className="add-ornament" onClick={onCompose} aria-label="기대평 장식 추가"><span className="add-ring"><Plus size={21} /></span><span>{index === showing.length ? "나의 실 이어주기" : "여기에 걸기"}</span></button>}</div>; })}</div>
-    <div className="wall-bottom"><p>{entries.length ? "장식을 눌러 연결된 마음을 읽어보세요." : loading ? "연결된 마음을 불러오고 있어요." : error ? "연결을 확인한 뒤 새로고침해 주세요." : "첫 기대평을 기다리고 있어요."}</p><button onClick={onCompose}>기대평 걸기 <ArrowUpRight size={17} /></button></div></div>
-    {pageCount > 1 && <div className="wall-pagination"><button disabled={safePage === 0} onClick={() => changePage(safePage - 1)} aria-label="더 최근 연결 보기"><ArrowLeft size={17} /></button><span>{safePage + 1} / {pageCount}</span><button disabled={safePage === pageCount - 1} onClick={() => changePage(safePage + 1)} aria-label="이전 연결 보기"><ArrowRight size={17} /></button></div>}
-    <dialog ref={detail} className="string-dialog message-dialog" aria-label={active ? `${active.nickname}님의 기대평` : "기대평"} onClose={() => setActiveId(null)} onClick={e => { if (e.target === e.currentTarget) detail.current?.close(); }}>{active && <><button className="dialog-close" onClick={() => detail.current?.close()} aria-label="기대평 닫기"><X size={22} /></button><span className="dialog-eyebrow">A STRING FROM {active.nickname}</span><div className="message-ornament"><Ornament kind={active.ornament || "star"} /></div><p className="message-content">{active.message}</p><div className="message-signature"><b>{active.nickname}</b><time dateTime={new Date(active.createdAt).toISOString()}>{new Date(active.createdAt).toLocaleDateString("ko-KR", { year: "numeric", month: "2-digit", day: "2-digit", timeZone: "Asia/Seoul" })}</time></div>{own[active.id] && (confirm ? <div className="ornament-delete-confirm"><p>내 장식을 지울까요?</p><button disabled={busy} onClick={async () => { if (!await onDelete(active.id)) setDeleteError("삭제하지 못했어요. 잠시 뒤 다시 시도해 주세요."); }}>삭제 확인</button><button disabled={busy} onClick={() => setConfirm(false)}>취소</button></div> : <button className="ornament-delete" onClick={() => setConfirm(true)}><Trash2 size={13} />내 장식 지우기</button>)}{deleteError && <p role="alert" className="error">{deleteError}</p>}</>}</dialog></>;
+function point(index: number, cols: number) {
+  const row = Math.floor(index / cols);
+  const col = row % 2 ? cols - 1 - index % cols : index % cols;
+  return { x: (col + .5) * 1000 / cols, y: 34 + row * 126, row };
+}
+function wire(count: number, cols: number) {
+  const points = Array.from({ length: count }, (_, i) => point(i, cols));
+  let d = `M -20 20 Q 0 34 ${points[0].x} 34`;
+  for (let i = 1; i < points.length; i++) {
+    const a = points[i - 1], b = points[i];
+    d += a.row === b.row ? ` Q ${(a.x + b.x) / 2} ${a.y + 24} ${b.x} ${b.y}` : ` C ${a.x > 500 ? 1000 : 0} ${a.y + 20} ${a.x > 500 ? 1000 : 0} ${b.y - 20} ${b.x} ${b.y}`;
+  }
+  const last = points[points.length - 1];
+  return d + ` Q ${last.x + (last.row % 2 ? -100 : 100)} ${last.y + 20} ${last.row % 2 ? -20 : 1020} ${last.y + 5}`;
+}
+export default function StringWall({ entries, own, busy, loading, freshId, onCompose, onDelete }: { entries: StringEntry[]; own: Record<string, string>; busy: boolean; loading: boolean; freshId: number | null; onCompose: () => void; onDelete: (id: number) => Promise<boolean> }) {
+  const [activeId, setActiveId] = useState<number | null>(null), [confirm, setConfirm] = useState(false), [deleteError, setDeleteError] = useState("");
+  const detail = useRef<HTMLDialogElement>(null);
+  const active = entries.find(e => e.id === activeId);
+  // 1페이지 12개. 이전 페이지를 가져와도 DOM과 화면 높이를 늘리지 않습니다.
+  const showing = entries.slice(0, 12);
+  const count = Math.max(8, Math.min(12, showing.length + 1));
+  useEffect(() => {
+    setConfirm(false); setDeleteError("");
+    if (active) detail.current?.showModal(); else detail.current?.close();
+  }, [activeId, !!active]);
+  useEffect(() => {
+    if (!active) return;
+    const old = document.body.style.overflow; document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = old; };
+  }, [!!active]);
+
+  return <><div className={`string-wall ${freshId && entries.some(entry => entry.id === freshId) ? "arrival-active" : ""}`} aria-busy={loading}>
+    <div className="string-canvas" style={{ "--wide-height": `${Math.ceil(count / 4) * 126 + 24}px`, "--narrow-height": `${Math.ceil(count / 3) * 126 + 24}px` } as CSSProperties}>
+      {[4, 3].map(cols => <svg key={cols} className={`wall-wire wire-${cols}`} viewBox={`0 0 1000 ${Math.ceil(count / cols) * 126 + 24}`} preserveAspectRatio="none" fill="none" aria-hidden="true"><path d={wire(count, cols)} /></svg>)}
+      {Array.from({ length: count }, (_, index) => {
+        const entry = showing[index], wide = point(index, 4), narrow = point(index, 3);
+        return <div key={entry?.id ?? `space-${index}`} className={`wall-node ${entry ? `filled ${entry.id === freshId ? "fresh" : ""}` : "unfilled"}`} style={{ "--wx": `${wide.x / 10}%`, "--wy": `${wide.y}px`, "--nx": `${narrow.x / 10}%`, "--ny": `${narrow.y}px`, "--tilt": `${[5, -5, 3, -3][index % 4]}deg` } as CSSProperties}>
+          <span className="thread-knot" /><span className="hanging-thread" />
+          {entry ? <button className="ornament-button" aria-label={`${entry.nickname}님의 기대평 보기`} onClick={() => setActiveId(entry.id)}><Ornament kind={entry.ornament || "star"} /><span className="ornament-name">{entry.nickname}</span></button> : <button className="add-ornament" onClick={onCompose} aria-label="이 자리에 기대평 걸기"><span><Plus size={20} /></span></button>}
+        </div>;
+      })}
+    </div>
+  </div>
+  <dialog ref={detail} className="rs-dialog message-dialog" aria-label={active ? `${active.nickname}님의 기대평` : "기대평"} onClose={() => setActiveId(null)} onClick={e => { if (e.target === e.currentTarget) detail.current?.close(); }}>{active && <>
+    <button className="dialog-close" onClick={() => detail.current?.close()} aria-label="기대평 닫기"><X /></button><div className="message-ornament"><Ornament kind={active.ornament || "star"} /></div><p className="message-content">{active.message}</p><div className="message-signature"><b>{active.nickname}</b><time dateTime={new Date(active.createdAt).toISOString()}>{new Date(active.createdAt).toLocaleDateString("ko-KR", { month: "2-digit", day: "2-digit", timeZone: "Asia/Seoul" })}</time></div>
+    {own[active.id] && (confirm ? <div className="ornament-delete-confirm"><p>내 장식을 지울까요?</p><button disabled={busy} onClick={async () => { if (!await onDelete(active.id)) setDeleteError("삭제하지 못했어요. 다시 시도해 주세요."); }}>삭제</button><button disabled={busy} onClick={() => setConfirm(false)}>취소</button></div> : <button className="ornament-delete" onClick={() => setConfirm(true)}><Trash2 size={15} />내 장식 지우기</button>)}{deleteError && <p role="alert" className="error">{deleteError}</p>}
+  </>}</dialog></>;
 }
