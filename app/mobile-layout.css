@@ -1,5 +1,8 @@
 /* PC에서는 모바일 폭, 휴대폰에서는 화면 폭에 맞춥니다. */
-.site-shell{container-type:inline-size;position:relative;width:100%;max-width:448px;min-height:100dvh;margin:0 auto;background:var(--paper);box-shadow:0 0 0 1px #E4E3DE}
+html,body{width:100%;min-width:0;overflow-x:hidden;overscroll-behavior-x:none}
+@supports(overflow:clip){html,body{overflow-x:clip}}
+.site-shell{container-type:inline-size;position:relative;width:100%;min-width:0;max-width:448px;min-height:100dvh;margin:0 auto;overflow-x:clip;background:var(--paper);box-shadow:0 0 0 1px #E4E3DE}
+@media(max-width:448px){html,body{background:var(--black)}.site-shell{margin:0;box-shadow:none}}
 @media(min-width:600px){.site-shell{margin:24px auto;box-shadow:0 0 0 1px #E4E3DE,0 16px 64px #0B0B0D0A}}
 
 @media(max-width:399px){

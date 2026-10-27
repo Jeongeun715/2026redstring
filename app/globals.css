@@ -8,7 +8,7 @@ a{color:inherit;text-decoration:none}button,input,textarea{font:inherit}button{c
 .skip{position:fixed;top:-80px;left:16px;z-index:100;padding:14px;background:var(--red);color:white}.skip:focus{top:10px}
 .rs-header{height:64px;display:flex;align-items:center;justify-content:center;background:var(--black);color:var(--paper)}
 .rs-logo{display:inline-flex;align-items:center;justify-content:center;line-height:1}.brand-logo{display:block;width:184px;height:auto;aspect-ratio:946/239}
-.concert-ticket{position:relative;background:var(--paper);text-align:center;padding:38px 24px 0}
+.concert-ticket{position:relative;overflow:hidden;background:var(--paper);text-align:center;padding:38px 24px 0}
 .concert-ticket h1{font-size:19px;font-weight:600;letter-spacing:-.4px}
 .main-visual-slot{height:396px;width:100%}
 .event-date{padding:14px 0 22px}.event-date p{font-size:22px;font-weight:700;letter-spacing:-.6px}.event-date span{display:block;margin-top:8px;font-size:17px}
@@ -40,10 +40,11 @@ a{color:inherit;text-decoration:none}button,input,textarea{font:inherit}button{c
 .guestbook-board{position:relative;scroll-margin-top:20px;margin-inline:calc(-1 * var(--guestbook-inset));width:calc(100% + 2 * var(--guestbook-inset))}
 .board-tools{position:absolute;top:-42px;right:var(--guestbook-inset);z-index:2;display:flex;align-items:center;padding:0}
 .board-tools>button{border:0;background:transparent;display:grid;place-items:center;width:44px;height:44px}
-.string-carousel{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;cursor:grab;user-select:none;-webkit-user-select:none;touch-action:auto;isolation:isolate}
+.string-carousel{display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;overscroll-behavior-x:none;scrollbar-width:none;cursor:grab;user-select:none;-webkit-user-select:none;touch-action:auto;isolation:isolate}
 .string-carousel::-webkit-scrollbar{display:none}
 .string-carousel[data-dragging=true]{scroll-snap-type:none;cursor:grabbing}
 .string-slide{flex:0 0 100%;min-width:0;scroll-snap-align:start;scroll-snap-stop:always}
+.string-swipe-hint{position:absolute;left:var(--guestbook-inset);right:var(--guestbook-inset);bottom:-30px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;line-height:20px;color:var(--muted);pointer-events:none}
 .string-wall{position:relative;overflow:hidden;width:100%;background:transparent;border:0;box-shadow:none}
 .string-canvas{position:relative;height:var(--wide-height);margin:0;width:100%}
 .wall-wire{position:absolute;inset:0;width:100%;height:100%;overflow:visible}

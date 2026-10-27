@@ -1,6 +1,6 @@
 "use client";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type PointerEvent } from "react";
-import { RefreshCw } from "lucide-react";
+import { MoveHorizontal, RefreshCw } from "lucide-react";
 import StringWall, { type StringEntry } from "./string-wall";
 import { carouselTarget, dragDirection } from "../../lib/string-carousel";
 
@@ -196,6 +196,7 @@ export default function StringGallery({ createdEntry, own, busy, onCompose, onDe
         </div>;
       })}
     </div>
+    {(canNext || index > 0) && <p className="string-swipe-hint">옆으로 넘기세요<MoveHorizontal size={15} aria-hidden="true" /></p>}
     <div className="sr-only" aria-live="polite">{page?.error || (page ? "기대평을 불러왔어요." : "다른 실을 불러오는 중이에요.")}</div>
     {page?.error && <p className="gallery-error error" role="alert">{page.error}</p>}
   </div>;

@@ -26,7 +26,7 @@ export function Ornament({ kind }: { kind: OrnamentKind }) {
       <path d="M40 17v6" stroke="currentColor" strokeWidth="3" />
       <path d="M40 22c16 0 29 2 29 15 0 15-16 37-25 43a7 7 0 0 1-8 0C27 74 11 52 11 37c0-13 13-15 29-15Z" fill="currentColor" stroke="#F47B88" strokeWidth="1.6" />
       <path d="M22 38c0-6 6-7 13-7" stroke="#FFD4D9" strokeWidth="2.4" />
-      <circle cx="40" cy="44" r="3" fill="#FFD4D9" /><circle cx="35" cy="53" r="2" fill="#FFD4D9" /><circle cx="45" cy="53" r="2" fill="#FFD4D9" />
+      <text x="40" y="56" textAnchor="middle" fontSize="22" fill="#FFFDF6" style={{ fontWeight: 800, letterSpacing: "-1px" }}>RS</text>
     </>}
   </svg>;
 }
