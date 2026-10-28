@@ -1,43 +1,18 @@
 "use client";
-import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { Plus, Trash2, X } from "lucide-react";
+import starOrnament from "../assets/ornaments/star.png";
+import heartOrnament from "../assets/ornaments/heart.png";
+import noteOrnament from "../assets/ornaments/note.png";
+import pickOrnament from "../assets/ornaments/pick.png";
 
 export type OrnamentKind = "star" | "heart" | "pick" | "note";
 export type StringEntry = { id: number; nickname: string; message: string; createdAt: number; ornament?: OrnamentKind };
 export const ornaments: { id: OrnamentKind; label: string }[] = [{ id: "star", label: "별" }, { id: "heart", label: "하트" }, { id: "note", label: "음표" }, { id: "pick", label: "기타 피크" }];
-const ornamentColors: Record<OrnamentKind, string> = { star: "#F5C857", heart: "#D62839", note: "#176B4A", pick: "#D62839" };
-const ornamentShapes: Record<OrnamentKind, string> = {
-  star: "M38 20 48 40 72 39 54 54 62 79 40 65 17 80 23 55 5 40 30 39Z",
-  heart: "M40 33 51 24 63 27 71 38 69 53 41 79 14 55 9 39 17 28 29 24Z",
-  note: "M32 33 64 24 68 26 68 65 60 75 50 76 44 71 45 63 54 57 59 57 59 40 40 45 40 69 32 79 22 80 15 75 15 67 24 61 32 61Z",
-  pick: "M16 26 29 22 47 21 61 25 70 35 69 47 59 64 43 80 36 79 19 61 10 44 10 34Z",
-};
-const ornamentCuts: Record<OrnamentKind, string> = {
-  star: "m45 33 4 7-3 7-2-10Zm-27 22 7-2-4 5-5-2Zm34 16 7 6-8-2Z",
-  heart: "m60 28 4 4-6-1Zm7 21 5-1-6 7 1-3ZM15 57l6-2-4 5Z",
-  note: "m58 27 5-2-2 6Zm-22 17 5-2-2 4Zm16 17 2 5-5-4Z",
-  pick: "m17 27 5 5-6-2Zm50 12 4 1-3 6-1-3ZM22 64l5-1-3 5Z",
-};
+const ornamentImages = { star: starOrnament, heart: heartOrnament, note: noteOrnament, pick: pickOrnament };
 export function Ornament({ kind }: { kind: OrnamentKind }) {
-  const inkId = `ornament-ink-${useId().replace(/:/g, "")}`;
-  const shape = ornamentShapes[kind];
-  return <svg viewBox="0 0 80 88" fill="none" aria-hidden="true" className={`ornament-art ornament-${kind}`} style={{ color: ornamentColors[kind] }} strokeLinecap="butt" strokeLinejoin="miter" strokeMiterlimit="3">
-    <defs><pattern id={inkId} width="17" height="19" patternUnits="userSpaceOnUse">
-      <path d="M2 3h.9v1.2H2ZM11 1h.8v.8H11ZM7 12h1.2v.7H7ZM15 9h.7v1.1H15ZM3 17h.8v.7H3Z" fill="#0B0B0D" />
-      <circle cx="6" cy="6" r=".45" fill="#0B0B0D" /><circle cx="12" cy="15" r=".5" fill="#F7F1DF" />
-    </pattern></defs>
-    <path d="m35 7 5-3 5 3 2 6-4 5h-6l-4-5Z" stroke="#F7F1DF" strokeWidth="2.8" />
-    <path d="M40 0v10m0 7v16" stroke="#D62839" strokeWidth="2.7" />
-    <path d={shape} transform="translate(1.5 2)" fill="#F7F1DF" stroke="#F7F1DF" strokeWidth="4.2" />
-    <path d={shape} fill="currentColor" stroke="#F7F1DF" strokeWidth="3.2" />
-    <path d={shape} fill={`url(#${inkId})`} opacity=".5" />
-    <path d={ornamentCuts[kind]} fill="#0B0B0D" />
-    {kind === "pick" && <>
-      <title>RS</title>
-      <path d="M24 35h10l5 5v8l-4 4 5 10h-8l-4-9v9h-6V41Zm5 6v6h3l1-1v-4l-1-1ZM46 35h9l4 4v5h-6v-2l-2-2h-3l-1 2v2l10 7 2 4v4l-4 4H45l-4-4v-6h6v3l2 2h3l1-2v-2l-10-7-2-4v-4Z" fill="#F7F1DF" fillRule="evenodd" />
-      <path d="M30 34h1.8v8H30Zm17 23h1.8v7H47Z" fill="currentColor" />
-    </>}
-  </svg>;
+  const image = ornamentImages[kind] ?? ornamentImages.star;
+  return <img src={image.src} width={image.width} height={image.height} alt="" aria-hidden="true" className={`ornament-art ornament-${kind}`} draggable={false} decoding="async" />;
 }
 function point(index: number, cols: number) {
   const row = Math.floor(index / cols);
