@@ -1,32 +1,41 @@
 "use client";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 import { Plus, Trash2, X } from "lucide-react";
 
 export type OrnamentKind = "star" | "heart" | "pick" | "note";
 export type StringEntry = { id: number; nickname: string; message: string; createdAt: number; ornament?: OrnamentKind };
 export const ornaments: { id: OrnamentKind; label: string }[] = [{ id: "star", label: "별" }, { id: "heart", label: "하트" }, { id: "note", label: "음표" }, { id: "pick", label: "기타 피크" }];
 const ornamentColors: Record<OrnamentKind, string> = { star: "#F5C857", heart: "#D62839", note: "#176B4A", pick: "#D62839" };
+const ornamentShapes: Record<OrnamentKind, string> = {
+  star: "M38 20 48 40 72 39 54 54 62 79 40 65 17 80 23 55 5 40 30 39Z",
+  heart: "M40 33 51 24 63 27 71 38 69 53 41 79 14 55 9 39 17 28 29 24Z",
+  note: "M32 33 64 24 68 26 68 65 60 75 50 76 44 71 45 63 54 57 59 57 59 40 40 45 40 69 32 79 22 80 15 75 15 67 24 61 32 61Z",
+  pick: "M16 26 29 22 47 21 61 25 70 35 69 47 59 64 43 80 36 79 19 61 10 44 10 34Z",
+};
+const ornamentCuts: Record<OrnamentKind, string> = {
+  star: "m45 33 4 7-3 7-2-10Zm-27 22 7-2-4 5-5-2Zm34 16 7 6-8-2Z",
+  heart: "m60 28 4 4-6-1Zm7 21 5-1-6 7 1-3ZM15 57l6-2-4 5Z",
+  note: "m58 27 5-2-2 6Zm-22 17 5-2-2 4Zm16 17 2 5-5-4Z",
+  pick: "m17 27 5 5-6-2Zm50 12 4 1-3 6-1-3ZM22 64l5-1-3 5Z",
+};
 export function Ornament({ kind }: { kind: OrnamentKind }) {
-  return <svg viewBox="0 0 80 88" fill="none" aria-hidden="true" className={`ornament-art ornament-${kind}`} style={{ color: ornamentColors[kind] }} strokeLinecap="round" strokeLinejoin="round">
-    <path d="M36 11V7a4 4 0 0 1 8 0v4" stroke="#F7F1DF" strokeOpacity=".8" strokeWidth="1.8" />
-    <rect x="34" y="11" width="12" height="6" rx="2" fill="currentColor" stroke="#F7F1DF" strokeOpacity=".55" strokeWidth="1.2" />
-    {kind === "star" ? <>
-      <path d="m40 17 8 20 22 1-17 14 5 22-18-12-18 12 5-22-17-14 22-1Z" fill="currentColor" stroke="#FFE39A" strokeWidth="1.6" />
-      <path d="m40 28-5 14-13 1" stroke="#FFF5CF" strokeWidth="2.4" />
-    </> : kind === "heart" ? <>
-      <path d="M40 17v13" stroke="currentColor" strokeWidth="3" />
-      <path d="M40 78C29 70 10 55 10 38c0-16 20-23 30-8 10-15 30-8 30 8 0 17-19 32-30 40Z" fill="currentColor" stroke="#F47B88" strokeWidth="1.6" />
-      <path d="M21 43c-3-10 2-15 8-14" stroke="#FFD4D9" strokeWidth="2.4" />
-      <circle cx="57" cy="42" r="2.3" fill="#FFD4D9" />
-    </> : kind === "note" ? <>
-      <path d="m40 17 5 6" stroke="currentColor" strokeWidth="3" />
-      <path d="M44 21h7c0 10 17 12 17 24 0 7-4 13-10 16 4-6 5-11 2-15-2-3-5-5-9-7v29c0 10-14 17-24 13-9-3-11-12-3-18 5-4 12-5 20-5Z" fill="currentColor" stroke="#78BA9E" strokeWidth="1.6" />
-      <path d="M47 31v23m-22 18c2-3 6-4 9-4" stroke="#C6E8D7" strokeWidth="2.4" />
-    </> : <>
-      <path d="M40 17v6" stroke="currentColor" strokeWidth="3" />
-      <path d="M40 22c16 0 29 2 29 15 0 15-16 37-25 43a7 7 0 0 1-8 0C27 74 11 52 11 37c0-13 13-15 29-15Z" fill="currentColor" stroke="#F47B88" strokeWidth="1.6" />
-      <path d="M22 38c0-6 6-7 13-7" stroke="#FFD4D9" strokeWidth="2.4" />
-      <text x="40" y="56" textAnchor="middle" fontSize="22" fill="#FFFDF6" style={{ fontWeight: 800, letterSpacing: "-1px" }}>RS</text>
+  const inkId = `ornament-ink-${useId().replace(/:/g, "")}`;
+  const shape = ornamentShapes[kind];
+  return <svg viewBox="0 0 80 88" fill="none" aria-hidden="true" className={`ornament-art ornament-${kind}`} style={{ color: ornamentColors[kind] }} strokeLinecap="butt" strokeLinejoin="miter" strokeMiterlimit="3">
+    <defs><pattern id={inkId} width="17" height="19" patternUnits="userSpaceOnUse">
+      <path d="M2 3h.9v1.2H2ZM11 1h.8v.8H11ZM7 12h1.2v.7H7ZM15 9h.7v1.1H15ZM3 17h.8v.7H3Z" fill="#0B0B0D" />
+      <circle cx="6" cy="6" r=".45" fill="#0B0B0D" /><circle cx="12" cy="15" r=".5" fill="#F7F1DF" />
+    </pattern></defs>
+    <path d="m35 7 5-3 5 3 2 6-4 5h-6l-4-5Z" stroke="#F7F1DF" strokeWidth="2.8" />
+    <path d="M40 0v10m0 7v16" stroke="#D62839" strokeWidth="2.7" />
+    <path d={shape} transform="translate(1.5 2)" fill="#F7F1DF" stroke="#F7F1DF" strokeWidth="4.2" />
+    <path d={shape} fill="currentColor" stroke="#F7F1DF" strokeWidth="3.2" />
+    <path d={shape} fill={`url(#${inkId})`} opacity=".5" />
+    <path d={ornamentCuts[kind]} fill="#0B0B0D" />
+    {kind === "pick" && <>
+      <title>RS</title>
+      <path d="M24 35h10l5 5v8l-4 4 5 10h-8l-4-9v9h-6V41Zm5 6v6h3l1-1v-4l-1-1ZM46 35h9l4 4v5h-6v-2l-2-2h-3l-1 2v2l10 7 2 4v4l-4 4H45l-4-4v-6h6v3l2 2h3l1-2v-2l-10-7-2-4v-4Z" fill="#F7F1DF" fillRule="evenodd" />
+      <path d="M30 34h1.8v8H30Zm17 23h1.8v7H47Z" fill="currentColor" />
     </>}
   </svg>;
 }
