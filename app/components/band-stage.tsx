@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { X } from "lucide-react";
 import { members, memberProfiles, type MemberProfile } from "../data/site";
 import { newRequestId } from "../../lib/request-id";
+import { createFlowerBurst, type FlowerFlight } from "./flower-burst";
 
 export function Flower({ className = "" }: { className?: string }) {
   return <svg className={className} viewBox="0 0 96 116" fill="none" aria-hidden="true">
@@ -10,7 +11,7 @@ export function Flower({ className = "" }: { className?: string }) {
     <path d="M47 91C25 94 17 75 19 68c18 0 29 8 28 23Zm1 9c20 3 30-13 29-21-19-1-28 6-29 21Z" fill="#176B4A" />
     <path d="m25 77 19 12m26-3-21 12" stroke="#8BB791" strokeWidth="1.5" />
     <path d="M48 52C20 57 4 45 3 28c20-2 35 4 45 24Zm0 0c1-26 13-43 31-45 4 19-5 35-31 45Z" fill="#176B4A" />
-    <g fill="currentColor">
+    <g fill="currentColor" stroke="#F7F1DF" strokeWidth="1.5" strokeLinejoin="miter">
       <path d="M48 50C33 37 31 19 44 3c15 13 19 29 4 47Z" />
       <path d="M48 50c-23 1-37-10-38-28 21-3 36 7 38 28Z" />
       <path d="M48 50c-23 0-36 11-35 29 21 0 33-9 35-29Z" />
@@ -26,6 +27,7 @@ export function Flower({ className = "" }: { className?: string }) {
 export default function BandStage() {
   const [active, setActive] = useState<MemberProfile | null>(null);
   const [burst, setBurst] = useState(0);
+  const [flowers, setFlowers] = useState<FlowerFlight[]>([]);
   const [state, setState] = useState<"sending" | "sent" | "error">("sending");
   const dialog = useRef<HTMLDialogElement>(null);
   const pending = useRef<{ member: MemberProfile; requestId: string } | null>(null);
@@ -47,6 +49,7 @@ export default function BandStage() {
     const request = pending.current;
     if (!request) { inFlight.current = false; return; }
     setState("sending");
+    setFlowers(createFlowerBurst());
     setBurst(x => x + 1);
     try {
       const response = await fetch("/api/flowers", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ memberId: request.member.id, requestId: request.requestId }), signal: AbortSignal.timeout(10000) });
@@ -71,8 +74,8 @@ export default function BandStage() {
   </article>)}</div>
     <dialog ref={dialog} className="rs-dialog flower-dialog" aria-labelledby="flower-title" onClose={close} onClick={e => { if (e.target === e.currentTarget) close(); }}>
       <button className="dialog-close" onClick={close} aria-label="꽃 보내기 닫기"><X /></button>
-      {active && <><span className="dialog-eyebrow">{active.role === "KEYS" ? "KEYBOARD" : active.role} · {active.part}</span><h3 id="flower-title">{active.name}</h3>
-        <div className="flower-scene"><svg className="bouquet-thread" viewBox="0 0 300 180" fill="none" aria-hidden="true"><path d="M-5 138c80-100 200 100 310-30" stroke="currentColor" strokeWidth="1.5" /></svg><Flower className="main-flower" /><span key={burst} className="flower-burst" aria-hidden="true">{Array.from({ length: 9 }, (_, i) => <span key={i} className="flying-flower" style={{ "--flower-x": `${(i - 4) * 31}px`, "--flower-turn": `${(i - 4) * 22}deg`, "--flower-delay": `${i * .035}s`, "--flower-lift": `${-65 - (i % 3) * 30}px` } as CSSProperties}><Flower /></span>)}</span></div>
+      {active && <><span className="dialog-eyebrow">{active.role === "KEYS" ? "KEYBOARD" : active.role} · {active.part}</span><div className="flower-name-tag"><h3 id="flower-title">{active.name}</h3></div>
+        <div className="flower-scene"><svg className="bouquet-thread" viewBox="0 0 300 180" fill="none" aria-hidden="true"><path d="M-5 138c80-100 200 100 310-30" stroke="currentColor" strokeWidth="1.5" /></svg><Flower className="main-flower" /><span key={burst} className="flower-burst" aria-hidden="true">{flowers.map((flower, i) => <span key={i} className="flying-flower" style={{ "--flower-left": `${flower.left}%`, "--flower-top": `${flower.top}%`, "--flower-x": `${flower.x}px`, "--flower-turn": `${flower.turn}deg`, "--flower-delay": `${flower.delay}s`, "--flower-lift": `${flower.lift}px`, "--flower-duration": `${flower.duration}s`, "--flower-size": `${flower.size}px` } as CSSProperties}><Flower /></span>)}</span></div>
         <p className="flower-status" role="status">{state === "sending" ? "응원을 전하는 중…" : state === "error" ? "응원을 전하지 못했어요." : "응원이 닿았어요!"}</p>
         <button className="primary-button" disabled={state === "sending"} onClick={() => void send(active, state === "error")}>{state === "error" ? "다시 응원하기" : "한 번 더 응원하기"}<Flower /></button>
       </>}

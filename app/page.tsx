@@ -5,6 +5,7 @@ import Setlist from "./components/setlist";
 import Guestbook from "./components/guestbook";
 import BandNotes from "./components/band-notes";
 import ScrollMotion from "./components/scroll-motion";
+import HeroVisual from "./components/hero-visual";
 import { eventInfo, socialLinks } from "./data/site";
 
 export default function Home() {
@@ -15,8 +16,7 @@ export default function Home() {
     <main id="main">
       <section id="info" className="concert-ticket" aria-labelledby="concert-title">
         <h1 id="concert-title">레드스트링 첫 단독 공연</h1>
-        {/* 메인 비주얼을 넣을 공간입니다. 이미지나 문구 없이 비워둡니다. */}
-        <div className="main-visual-slot" aria-hidden="true" />
+        <HeroVisual />
         <div className="event-date" data-reveal><p>{eventInfo.date}</p><span>{eventInfo.scheduleNote}</span></div>
         <div className="ticket-tear" aria-hidden="true" />
         <a className="event-venue" data-reveal href={eventInfo.mapUrl} target="_blank" rel="noopener noreferrer">{eventInfo.venueName}<ArrowUpRight size={20} /></a>
