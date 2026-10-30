@@ -15,8 +15,8 @@ export default function Home() {
     <header className="rs-header"><a href="#main" className="rs-logo" aria-label="Red String 홈"><img className="brand-logo" src="/logo.svg" alt="Red String" width="946" height="239" /></a></header>
     <main id="main">
       <section id="info" className="concert-ticket" aria-labelledby="concert-title">
-        <h1 id="concert-title">레드스트링 첫 단독 공연</h1>
         <HeroVisual />
+        <h1 id="concert-title" className="yearend-title"><span className="yearend-title-year">2026</span>{" "}<span className="yearend-title-name">YEAR-END LIVE</span></h1>
         <div className="event-date" data-reveal><p>{eventInfo.date}</p><span>{eventInfo.scheduleNote}</span></div>
         <div className="ticket-tear" aria-hidden="true" />
         <a className="event-venue" data-reveal href={eventInfo.mapUrl} target="_blank" rel="noopener noreferrer">{eventInfo.venueName}<ArrowUpRight size={20} /></a>
