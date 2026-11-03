@@ -16,10 +16,11 @@ export default function Home() {
     <main id="main">
       <section id="info" className="concert-ticket" aria-labelledby="concert-title">
         <HeroVisual />
-        <h1 id="concert-title" className="yearend-title"><span className="yearend-title-year">2026</span>{" "}<span className="yearend-title-name">YEAR-END LIVE</span></h1>
+        <h1 id="concert-title" className="yearend-title"><span className="yearend-title-year">2026</span>{" "}<span className="yearend-title-name">ROCK THE <br />YEAR AWAY</span></h1>
         <div className="event-date" data-reveal><p>{eventInfo.date}</p><span>{eventInfo.scheduleNote}</span></div>
         <div className="ticket-tear" aria-hidden="true" />
-        <a className="event-venue" data-reveal href={eventInfo.mapUrl} target="_blank" rel="noopener noreferrer">{eventInfo.venueName}<ArrowUpRight size={20} /></a>
+        <a className="event-venue" data-reveal href={eventInfo.mapUrl} target="_blank" rel="noopener noreferrer"><span className="event-venue-name">{eventInfo.venueName}<ArrowUpRight size={20} aria-hidden="true" /></span></a>
+        <p className="event-admission" data-reveal><span>{eventInfo.ticket}</span>{" "}<span>{eventInfo.ticketNote}</span></p>
       </section>
       <section id="members" className="members-section" aria-labelledby="members-title">
         <div className="section-heading" data-reveal><h2 id="members-title">ON STAGE</h2><p>이름을 눌러 꽃으로 응원해주세요.</p></div>

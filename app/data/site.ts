@@ -5,8 +5,8 @@ export const eventInfo = {
   scheduleNote: "입장 오후 5시 30분",
   venueTitle: "HERMIT",
   venueName: "합정 허밋",
-  ticket: "추후 공개",
-  ticketNote: "입장료 · 예매 방법은 준비 중입니다.",
+  ticket: "입장료 무료",
+  ticketNote: "(1인 1음료)",
   mapUrl: "https://map.naver.com/p/search/합정%20허밋",
 };
 
@@ -38,7 +38,7 @@ export type Song = {
 export const songs: Song[] = [
   { title: "Hi Bully", artist: "터치드", query: "Hi Bully 터치드", spotifyUrl: "https://open.spotify.com/track/0gd4nhLObQ2fOEvQzBq9KF" },
   { title: "사랑하게 될 거야", artist: "한로로", query: "사랑하게 될 거야 한로로", tag: "RS ver.", spotifyUrl: "https://open.spotify.com/track/3WvM2dIR9iIxMGNMP7WsNw" },
-  { title: "좋지 아니한가", artist: "크라잉넛", query: "좋지 아니한가 크라잉넛", spotifyUrl: "https://open.spotify.com/track/7L13P7XjzgJyENZZjITPcV" },
+  { title: "좋지 아니한가", artist: "유다빈밴드", query: "좋지 아니한가 유다빈밴드", spotifyUrl: "https://open.spotify.com/track/10ghh7XuPOiqW24K8HTu9r" },
   { title: "미리 메리 크리스마스", artist: "아이유", query: "미리 메리 크리스마스 아이유", tag: "RS ver.", spotifyUrl: "https://open.spotify.com/track/6I9Y6PHTWv72fgQV3tIHt0" },
   { title: "우리의 밤", artist: "유다빈밴드", query: "우리의 밤 유다빈밴드", spotifyUrl: "https://open.spotify.com/track/10zPfR7LhIy8JShyjOTOXA" },
   { title: "When this rain stops", artist: "웬디", query: "When This Rain Stops 웬디", spotifyUrl: "https://open.spotify.com/track/6mavVLsxaa4YcPje9qZKcf" },
